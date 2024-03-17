@@ -1,6 +1,7 @@
 """
 This file exists to implement one or more non-repository-specific general "utility" functions.
 """
+
 import csv
 import json
 from pathlib import Path
@@ -11,6 +12,7 @@ from typing import Generator
 ########################################################################################################################
 #  TXT
 ########################################################################################################################
+
 
 def read_txt_as_line_generator(file_path: Path) -> Generator[str, None, None]:
     """Reads file as list of strings (one element per line) with no trailing whitespace."""
@@ -30,7 +32,13 @@ def read_txt_as_line_list(file_path: Path) -> List[str]:
     return list(read_txt_as_line_generator(file_path))
 
 
-def write_txt_from_lines(lines: Iterator, file_path: Path, write_mode: Literal['overwrite', 'append'] ='overwrite', encoding="utf-8", decoding=False):
+def write_txt_from_lines(
+    lines: Iterator,
+    file_path: Path,
+    write_mode: Literal["overwrite", "append"] = "overwrite",
+    encoding="utf-8",
+    decoding=False,
+):
     """
     Writes a list of lines to a text file.
 
@@ -42,9 +50,9 @@ def write_txt_from_lines(lines: Iterator, file_path: Path, write_mode: Literal['
         decoding: Whether to decode the lines. Defaults to False.
     """
     # Determine write mode
-    if write_mode == 'overwrite':
+    if write_mode == "overwrite":
         open_text_mode = "w"
-    elif write_mode == 'append':
+    elif write_mode == "append":
         open_text_mode = "a"
     else:
         raise ValueError("Invalid write_mode: " + write_mode)
@@ -54,7 +62,7 @@ def write_txt_from_lines(lines: Iterator, file_path: Path, write_mode: Literal['
 
         if decoding and encoding:
             # Convert each line to string and decode
-            f.write("\n".join(str(line).encode(encoding).decode(decoding, 'ignore') for line in lines))
+            f.write("\n".join(str(line).encode(encoding).decode(decoding, "ignore") for line in lines))
         else:
             # Convert each line to string and decode
             f.write("\n".join(str(line) for line in lines))
@@ -63,6 +71,7 @@ def write_txt_from_lines(lines: Iterator, file_path: Path, write_mode: Literal['
 ########################################################################################################################
 #  JSON
 ########################################################################################################################
+
 
 def read_json(json_path: Path) -> Any:
     assert isinstance(json_path, Path), f"Expected pathlib.Path object from {json_path=}, got {type(json_path)=}"
@@ -86,6 +95,7 @@ def write_json(obj: Any, json_path: Path, indent: int = 4) -> None:
 ########################################################################################################################
 #  CSV
 ########################################################################################################################
+
 
 def read_csv_as_row_dicts(csv_path: Path) -> List[Dict[str, str]]:
     """
@@ -137,5 +147,3 @@ def write_csv_from_row_dicts(row_dicts: dict, csv_path: Path, ordered_headers: O
         dict_writer = csv.DictWriter(output_file, fieldnames=ordered_fieldname_dict.keys())
         dict_writer.writeheader()
         dict_writer.writerows(row_dicts)
-
-
