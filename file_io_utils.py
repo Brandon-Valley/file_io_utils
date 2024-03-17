@@ -68,6 +68,26 @@ def write_txt_from_lines(
             f.write("\n".join(str(line) for line in lines))
 
 
+def delete_last_n_lines_from_txt(file_path: Path, num_lines_to_delete: int) -> None:
+    """
+    Deletes the last `num_lines_to_delete` lines from a text file.
+
+    Args:
+        file_path: The path to the file.
+        num_lines_to_delete: The number of lines to delete.
+    """
+    assert isinstance(file_path, Path), f"Expected pathlib.Path object from {file_path=}, got {type(file_path)=}"
+    assert file_path.is_file(), file_path
+
+    # Read lines from file
+    with open(file_path, "r") as f:
+        lines = f.readlines()
+
+    # Write lines back to file
+    with open(file_path, "w") as f:
+        f.writelines(lines[:-num_lines_to_delete])
+
+
 ########################################################################################################################
 #  JSON
 ########################################################################################################################

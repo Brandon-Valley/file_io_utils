@@ -1,4 +1,5 @@
 from file_io_utils import (
+    delete_last_n_lines_from_txt,
     read_txt_as_line_generator,
     read_txt_as_line_list,
     write_txt_from_lines,
@@ -53,6 +54,20 @@ def test_read_write_csv_as_row_dicts(tmp_path: Path):
 
     read_data = read_csv_as_row_dicts(test_file)
     assert read_data == row_dicts
+
+
+def test_delete_last_n_lines_from_txt(tmp_path: Path):
+    # Create a test file with some lines
+    test_file = tmp_path / "test.txt"
+    test_file.write_text("line 1\nline 2\nline 3\nline 4\nline 5")
+
+    # Call the function to delete the last 2 lines
+    delete_last_n_lines_from_txt(test_file, 2)
+
+    # Verify that the lines were deleted
+    expected_lines = ["line 1", "line 2", "line 3"]
+    actual_lines = test_file.read_text().splitlines()
+    assert actual_lines == expected_lines
 
 
 # Run pytest in the terminal where your test file is located with:
