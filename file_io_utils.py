@@ -168,7 +168,7 @@ def write_csv_from_row_dicts(
     csv_path.parent.mkdir(exist_ok=True, parents=True)
 
     # Write CSV
-    with open(csv_path, "w", newline="") as output_file:
+    with open(csv_path, "w", encoding="utf-8", newline="") as output_file:
         dict_writer = csv.DictWriter(output_file, fieldnames=ordered_fieldname_dict.keys())
         dict_writer.writeheader()
         dict_writer.writerows(row_dicts)
